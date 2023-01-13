@@ -221,14 +221,15 @@ $wMbl: 95%;
   }
  
 /* Encabezado de aplicación global */
+
 .navbar {
   display: none;
   position: absolute;
   margin-top: 3%;
   margin-right: 10%;
-  &-brand {
-    visibility: hidden;
- }
+    &-brand {
+      visibility: hidden;
+}
 }
 
 .bg-light {

@@ -104,81 +104,24 @@ const pCreator = () => {
     ventimp.close();
   }
 
-  const mailValido = email => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const aJson = (a) => {
+    return JSON.stringify(a)  
   }
 
-  const funcionValidadoraMail = (a) => {
-   if (!mailValido(a.value)) {
-      return false
-    } else {
-      return true
-    }
-  }
+const aJs = (b) => {
+  return JSON.parse(b)
+}
 
-  async function evento (e) {
-    e.preventDefault()
-    if (!funcionValidadoraMail(mailDelUsuarioContacto)) {
-      swal({
-        position: "top-end",
-        icon: "error",
-        title: `"${mailDelUsuarioContacto.value}" no es un mail válido`,
-      }) 
-    } else {    
-    let data = new FormData(e.target);
-    fetch(formularioContacto.action, {
-      method: formularioContacto.method,
-      body: data,
-      headers: {
-          'Accept': 'application/json'
-      }
-    }).then(response => {
-      if (response.ok) {
-        formularioContacto.reset()
-        swal({
-          position: "top-end",
-          icon: "success",
-          title: "¡Gracias, nos podremos en contacto!",
-          timer: 3000
-        });
-      } else {
-        response.json().then(data => {
-          if (Object.hasOwn(data, 'errors')) {
-            swal({
-              position: "top-end",
-              icon: "error",
-              title: `${data["errors"].map(error => error["message"]).join(", ")}`,
-            })
-          } else {
-            swal({
-              position: "top-end",
-              icon: "error",
-              title: "Tuvimos un problema al enviar el formulario.",
-              showConfirmButton: true
-            })
-          }
-        })
-      }
-    }).catch(error => {
-      swal({
-        position: "top-end",
-        icon: "error",
-        title: "Tuvimos un problema al enviar el formulario.",
-        showConfirmButton: true
-      })
-    });
-  } 
-  }
-
+const aLS = (a, b) => {
+  let c = aJson(b)
+  localStorage.setItem(a, b)
+ }
 
 // Construcción del DOM-Liquidacion **eventos**
 const botonCalcular = document.querySelector("#botonCalcular")
 const botonModificar = document.querySelector("#botonModificar")
 const botonImprimir = document.querySelector("#botonImprimir")
 const resultados = document.querySelector("#resultadoLiquidacion")
-const mailDelUsuarioContacto = document.querySelector("#mail")
-const formularioContacto = document.querySelector("#formContact")
-
 const body = document.querySelector(".modoClaro")
 const textBotonDark = document.querySelector(".textBotonDark")
 const imgModoDark = document.querySelector(".imgModoDark")
@@ -187,14 +130,15 @@ const bDark = document.querySelector(".botonDark")
 
  bDark.onclick = () => {
   body.classList.toggle("modoDARK")
+  let darkModo = "darkModo"
   if (body.className === "modoClaro modoDARK") {
     textBotonDark.textContent = "Aclarar"
     imgModoDark.className = "imgModoClaro"
-    localStorage.setItem("darkModo", "si")
+    aLS(darkModo, "si")
   } else {
     textBotonDark.textContent = "Oscurecer"
     imgModoDark.className = "imgModoDark"
-    localStorage.setItem("darkModo", "no")
+    aLS(darkModo, "no")
   }
 }
 
@@ -216,7 +160,6 @@ botonImprimir.onclick = () => {
   funcionImprimir("resultadoLiquidacion")
 }
 
-formularioContacto.addEventListener("submit", evento) 
 
 // Verifica en LocalStorage si el usuario seleccionó modo oscuro
 if (localStorage.getItem("darkModo") === "si") {
