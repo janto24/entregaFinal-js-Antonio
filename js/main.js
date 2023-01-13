@@ -108,9 +108,6 @@ const pCreator = () => {
     return JSON.stringify(a)  
   }
 
-const aJs = (b) => {
-  return JSON.parse(b)
-}
 
 const aLS = (a, b) => {
   let c = aJson(b)
